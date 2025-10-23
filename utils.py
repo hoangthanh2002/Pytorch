@@ -1,5 +1,4 @@
-import os as osp
-import glob
+from lib import *
 
 def make_datapath_list(phase='train'):
     rootpath = './data/hymenoptera_data/'
