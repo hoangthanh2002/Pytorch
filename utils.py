@@ -1,4 +1,5 @@
 from lib import *
+from config import save_path
 
 def make_datapath_list(phase='train'):
     rootpath = './data/hymenoptera_data/'
@@ -48,6 +49,8 @@ def train_model(net, dataloader_dict, criterior, optimizer, num_epochs):
             epoch_acc = epoch_corrects.double() / len(dataloader_dict[phase].dataset)
             print('{} Loss: {:.4f} Acc: {:.4f}'.format(phase, epoch_loss, epoch_acc))
 
+    torch.save(net.state_dict(), save_path)
+
 def params_to_update (net):
     params_to_update_1 = []
     params_to_update_2 = []
@@ -70,4 +73,15 @@ def params_to_update (net):
         else :
             param.requires_grad = False
     return params_to_update_1, params_to_update_2, params_to_update_3
+
+def load_model(net, model_path):
+    load_weights = torch.load(model_path)
+    net.load_state_dict(load_weights)
+    print(net)
+    
+    for name , param in net.named_parameters():
+        print(name, param)
+    # load_weights = torch.load(model_path, map_location={'cuda:0': 'cpu'})
+    # net.load_state_dict(load_weights)
+    
         

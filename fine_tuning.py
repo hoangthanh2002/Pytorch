@@ -1,7 +1,7 @@
 from lib import *
 from image_transform import ImageTransform
 from config import *
-from utils import make_datapath_list, train_model , params_to_update
+from utils import make_datapath_list, train_model , params_to_update, load_model
 from dataset import Mydataset
 
 def main ():
@@ -34,4 +34,9 @@ def main ():
     train_model(net, dataloader_dict, criterior, optimizer, num_epochs=num_epochs)
 
 if __name__ == '__main__':
-    main()
+    #main()
+    #network
+    use_pretrained = True
+    net = models.vgg16(pretrained=use_pretrained)
+    net.classifier[6] = nn.Linear(in_features=4096, out_features=2)
+    load_model(net, save_path)
